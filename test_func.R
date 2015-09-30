@@ -1,3 +1,4 @@
-sem = function(x) {
- sqrt(var(nums)/length(nums))
+test = function(bldgs) {
+  bldg.ID = bldgs[,"BuildingID"]
+  return(bldg.ID)
 }
