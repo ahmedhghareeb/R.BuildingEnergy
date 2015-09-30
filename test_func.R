@@ -1,4 +1,5 @@
-test = function(bldgs) {
+test = function(bldgs, usage) {
   bldg.ID = bldgs[,"BuildingID"]
-  return(bldg.ID)
+  bldg.Usage = usage[usage$BuildingID==bldg.ID[1],]
+  return(bldg.Usage)
 }
