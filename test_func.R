@@ -8,6 +8,7 @@ test = function(bldgs, usage) {
   i = 23
   # Pull valid usage records associated with valid buildings
   bldg.Usage = data.frame(cln.Usage[cln.Usage$BuildingID==bldg.ID[i],])
+  print(bldg.ID[i])
   
   bldg.Usage.Elec = bldg.Usage[bldg.Usage$MeterUnits=="kWh",]
   bldg.Usage.Elec = bldg.Usage.Elec[order(as.Date(bldg.Usage.Elec$StartDate)),]
@@ -17,24 +18,32 @@ test = function(bldgs, usage) {
   
   # Test for dupicate entries: returns duplicates (Test 1 & 2 are imbeded in the import section above)
   test3 = bldg.Usage[duplicated(bldg.Usage),]
+  print(test3)
+  
   # Test for length of each record: returns valid records
   test4 = subset(c(as.Date(bldg.Usage[,"EndDate"]) - as.Date(bldg.Usage[,"StartDate"])),
-                 c(as.Date(bldg.Usage[,"EndDate"]) - as.Date(bldg.Usage[,"StartDate"]) > 14) &
-                 c(as.Date(bldg.Usage[,"EndDate"]) - as.Date(bldg.Usage[,"StartDate"]) < 60))
-   # Subloop
+                 c(as.Date(bldg.Usage[,"EndDate"]) - as.Date(bldg.Usage[,"StartDate"]) < 14) &
+                 c(as.Date(bldg.Usage[,"EndDate"]) - as.Date(bldg.Usage[,"StartDate"]) > 60))
+  # print(test4)
+  
+  # Subloop
   len = length(bldg.Usage.Gas[,1])-1
-  print(len)
   for (j in 1:len) {
+    # Check overlapping days in elec. & gas usage reporting ranges
     test5g =  c(as.Date(bldg.Usage.Gas[j,"EndDate"]) - as.Date(bldg.Usage.Gas[j+1,"StartDate"]))
+    if (abs(test5g) > 4) {
+      print(bldg.Usage.Gas[j,"MeterID"])
+      print(as.Date(bldg.Usage.Gas[j,"EndDate"]))
+      print(as.Date(bldg.Usage.Gas[j+1,"StartDate"]))
+    }
     test5e =  c(as.Date(bldg.Usage.Elec[j,"EndDate"]) - as.Date(bldg.Usage.Elec[j+1,"StartDate"]))
-    
-    print(c(as.Date(bldg.Usage.Elec[j,"EndDate"])))
-    print(c(as.Date(bldg.Usage.Elec[j+1,"StartDate"])))
-    print(test5e)
+    if (abs(test5e) > 4) {
+      print(as.Date(bldg.Usage.Elec[j,"MeterID"]))
+      print(as.Date(bldg.Usage.Elec[j,"EndDate"]))
+      print(as.Date(bldg.Usage.Elec[j+1,"StartDate"]))
+    }
   }
   #}
-  
-  print(bldg.ID[i])
   
   return()
 }
