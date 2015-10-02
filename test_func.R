@@ -46,20 +46,23 @@ test = function(bldgs, usage) {
                 as.Date(bldg.Usage.Gas[j+  1,"StartDate"]))  
     if (abs(test5g) >   4) {  
       print("Gas")  
-      print(bldg.Usage.Gas[j,"MeterID"])  
+      print(test5g)  
       print(as.Date(bldg.Usage.Gas[j,"EndDate"])) 
       print(as.Date(bldg.Usage.Gas[j+1,"StartDate"]))
     }
+  }
 
   e.len = length(bldg.Usage.Elec[,1])-1
-  for (j in 1:e.len)
-    test5e =  c(as.Date(bldg.Usage.Elec[j,"EndDate"]) -
-                as.Date(bldg.Usage.Elec[j+1,"StartDate"]))
-    if (abs(test5e) > 4) {
-      print("Elec")
-      print(as.Date(bldg.Usage.Elec[j,"MeterID"]))
-      print(as.Date(bldg.Usage.Elec[j,"EndDate"]))
-      print(as.Date(bldg.Usage.Elec[j+1,"StartDate"]))
+  for (j in 1:e.len) {
+    if (bldg.ID[i] %in% bldg.Usage.Elec$BuildingID) {
+      test5e =  c(as.Date(bldg.Usage.Elec[j,"EndDate"]) -
+                  as.Date(bldg.Usage.Elec[j+1,"StartDate"]))
+      if (abs(test5e) > 4) {
+        print("Elec")
+        print(test5e)
+        print(as.Date(bldg.Usage.Elec[j,"EndDate"]))
+        print(as.Date(bldg.Usage.Elec[j+1,"StartDate"]))
+      }
     }
   }
   #}
