@@ -41,14 +41,16 @@ test = function(bldgs, usage) {
   # Subloop
   g.len = length(bldg.Usage.Gas[,1])-1
   for (j in 1:g.len) {
-    # Check overlapping days in elec. & gas usage reporting ranges
-    test5g =  c(as.Date(bldg.Usage.Gas[j,"EndDate"]) -
-                as.Date(bldg.Usage.Gas[j+  1,"StartDate"]))  
-    if (abs(test5g) >   4) {  
-      print("Gas")  
-      print(test5g)  
-      print(as.Date(bldg.Usage.Gas[j,"EndDate"])) 
-      print(as.Date(bldg.Usage.Gas[j+1,"StartDate"]))
+    if (bldg.ID[i] %in% bldg.Usage.Gas$BuildingID) {
+      # Check overlapping days in elec. & gas usage reporting ranges
+      test5g =  c(as.Date(bldg.Usage.Gas[j,"EndDate"]) -
+                  as.Date(bldg.Usage.Gas[j+  1,"StartDate"]))  
+      if (abs(test5g) >   4) {  
+        print("Gas")  
+        print(test5g)  
+        print(as.Date(bldg.Usage.Gas[j,"EndDate"])) 
+        print(as.Date(bldg.Usage.Gas[j+1,"StartDate"]))
+      }
     }
   }
 
