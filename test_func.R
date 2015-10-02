@@ -1,6 +1,7 @@
 test = function(bldgs, usage) {
   # Pull only valid buildings
-  bldg.ID = subset(bldgs[,"BuildingID"], c(!(is.na(bldgs$PropertyName)) | !(is.na(bldgs$BusinessName))) & bldgs$LeaseableArea > 0)
+  bldg.ID = subset(bldgs[,"BuildingID"], c(!(is.na(bldgs$PropertyName)) |
+                   !(is.na(bldgs$BusinessName))) & bldgs$LeaseableArea > 0)
   print(length(bldg.ID))
   # Pull only valid readings
   cln.Usage = usage[!(is.na(usage$EnergyReading)) & !(is.na(usage$EnergyCost)),]
@@ -38,8 +39,8 @@ test = function(bldgs, usage) {
   print(test4)
   
   # Subloop
-  len = length(bldg.Usage.Gas[,1])-1
-  for (j in 1:len) {
+  g.len = length(bldg.Usage.Gas[,1])-1
+  for (j in 1:g.len) {
     # Check overlapping days in elec. & gas usage reporting ranges
     test5g =  c(as.Date(bldg.Usage.Gas[j,"EndDate"]) -
                 as.Date(bldg.Usage.Gas[j+  1,"StartDate"]))  
@@ -50,6 +51,8 @@ test = function(bldgs, usage) {
       print(as.Date(bldg.Usage.Gas[j+1,"StartDate"]))
     }
 
+  e.len = length(bldg.Usage.Elec[,1])-1
+  for (j in 1:e.len)
     test5e =  c(as.Date(bldg.Usage.Elec[j,"EndDate"]) -
                 as.Date(bldg.Usage.Elec[j+1,"StartDate"]))
     if (abs(test5e) > 4) {
