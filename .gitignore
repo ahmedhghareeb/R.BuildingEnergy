@@ -1,7 +1,7 @@
 .Rproj.user/
-
-*.sublime-*
-.Rproj.user
 .Rhistory
 .RData
+*.Rproj
+
+*.sublime-*
 *.csv
