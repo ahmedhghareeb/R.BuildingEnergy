@@ -38,8 +38,6 @@ test = function(bldgs, usage) {
   for (j in 1:len) {
     # Check overlapping days in elec. & gas usage reporting ranges
     test5g =  c(as.Date(bldg.Usage.Gas[j,"EndDate"]) - as.Date(bldg.Usage.Gas[j+1,"StartDate"]))
-    print(as.Date(bldg.Usage.Gas[j,"EndDate"]))
-    print(as.Date(bldg.Usage.Gas[j+1,"StartDate"]))
     if (abs(test5g) > 4) {
       print("Gas")
       print(bldg.Usage.Gas[j,"MeterID"])
