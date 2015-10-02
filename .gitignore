@@ -2,4 +2,6 @@
 
 *.sublime-*
 .Rproj.user
+.Rhistory
+.RData
 *.csv
