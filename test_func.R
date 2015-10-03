@@ -1,8 +1,13 @@
-test = function(bldgs, usage) {
+test = function(bldgs, usage, single.BldgID=NULL) {
   # Pull only valid buildings
-  bldg.ID = subset(bldgs[,"BuildingID"], c(!(is.na(bldgs$PropertyName)) |
-                   !(is.na(bldgs$BusinessName))) & bldgs$LeaseableArea > 0)
+  if (is.null(single.BldgID)) {
+    bldg.ID = subset(bldgs[,"BuildingID"], c(!(is.na(bldgs$PropertyName)) |
+                     !(is.na(bldgs$BusinessName))) & bldgs$LeaseableArea > 0)
+  } else if (is.numeric(single.BldgID)) {
+    bldg.ID = single.BldgID
+  }
   print(length(bldg.ID))
+
   # Pull only valid readings
   cln.Usage = usage[!(is.na(usage$EnergyReading)) & !(is.na(usage$EnergyCost)),]
   
@@ -38,14 +43,15 @@ test = function(bldgs, usage) {
                      as.Date(bldg.Usage[,"StartDate"]) > 60))
     print("Test 4")
     print(test4)
-    
+
+print(unique(bldg.Usage.Elec$MeterID))    
     # Subloop
     g.len = length(bldg.Usage.Gas[,1])-1
     for (j in 1:g.len) {
       if (bldg.ID[i] %in% bldg.Usage.Gas$BuildingID) {
         # Check overlapping days in elec. & gas usage reporting ranges
         test5g =  c(as.Date(bldg.Usage.Gas[j,"EndDate"]) -
-                    as.Date(bldg.Usage.Gas[j+  1,"StartDate"]))  
+                    as.Date(bldg.Usage.Gas[j+  1,"StartDate"]))
         if (abs(test5g) >   4) {  
           print("Gas")  
           print(test5g)  
