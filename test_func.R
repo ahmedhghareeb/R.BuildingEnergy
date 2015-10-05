@@ -44,7 +44,7 @@ test = function(bldgs, usage, single.BldgID=NULL) {
     print("Test 4")
     print(test4)
 
-print(unique(bldg.Usage.Elec$MeterID))    
+print(unique(bldg.Usage.Gas$MeterID))    
     # Subloop
     g.len = length(bldg.Usage.Gas[,1])-1
     for (j in 1:g.len) {
@@ -60,7 +60,8 @@ print(unique(bldg.Usage.Elec$MeterID))
         }
       }
     }
-  
+    
+    print(unique(bldg.Usage.Elec$MeterID))
     e.len = length(bldg.Usage.Elec[,1])-1
     for (j in 1:e.len) {
       if (bldg.ID[i] %in% bldg.Usage.Elec$BuildingID) {
